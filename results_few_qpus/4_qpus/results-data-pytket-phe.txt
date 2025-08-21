@@ -1,0 +1,7 @@
+qpu_size=4, num_qubits=16, num_partitions=4
+Number of qubits in circuit 16
+Min e-bit count: 16
+Time taken for PYTKET_PHE: 0.09174156188964844 seconds
+Detached count for PYTKET_PHE: 34 gates
+
+

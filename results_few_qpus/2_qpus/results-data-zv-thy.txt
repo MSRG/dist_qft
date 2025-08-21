@@ -1,0 +1,7 @@
+qpu_size=8, num_qubits=16, num_partitions=2
+Number of qubits in circuit 16
+Min e-bit count: 8
+Time taken for ZV_THY: 0 seconds
+Detached count for ZV_THY: 0 gates
+
+

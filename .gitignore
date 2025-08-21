@@ -1,3 +1,10 @@
+# Custom
+
+.DS_Store
+pytket-dqc-tests/
+
+# Copied from https://github.com/github/gitignore/blob/main/Python.gitignore (License: CC0-1.0)
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,7 @@
+qpu_size=8, num_qubits=16, num_partitions=2
+Number of qubits in circuit 16
+Min e-bit count: 32
+Time taken for FGP-rOEE: 0.027487754821777344 seconds
+Detached count for FGP-rOEE: 0 gates
+
+

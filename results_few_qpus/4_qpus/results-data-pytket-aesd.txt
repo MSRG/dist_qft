@@ -1,0 +1,7 @@
+qpu_size=4, num_qubits=16, num_partitions=4
+Number of qubits in circuit 16
+Min e-bit count: 19
+Time taken for PYTKET_AESD: 2.631455421447754 seconds
+Detached count for PYTKET_AESD: 35 gates
+
+

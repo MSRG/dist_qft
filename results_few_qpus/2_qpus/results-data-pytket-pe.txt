@@ -1,0 +1,7 @@
+qpu_size=8, num_qubits=16, num_partitions=2
+Number of qubits in circuit 16
+Min e-bit count: 8
+Time taken for PYTKET_PE: 0.07761549949645996 seconds
+Detached count for PYTKET_PE: 1 gates
+
+
