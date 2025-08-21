@@ -1,7 +1,31 @@
 qpu_size=4, num_qubits=16, num_partitions=4
 Number of qubits in circuit 16
 Min e-bit count: 31
-Time taken for GCP-E: 22.656614303588867 seconds
+Time taken for GCP-E: 21.615747690200806 seconds
+Detached count for GCP-E: 0 gates
+
+qpu_size=6, num_qubits=24, num_partitions=4
+Number of qubits in circuit 24
+Min e-bit count: 50
+Time taken for GCP-E: 23.92928910255432 seconds
+Detached count for GCP-E: 0 gates
+
+qpu_size=8, num_qubits=32, num_partitions=4
+Number of qubits in circuit 32
+Min e-bit count: 76
+Time taken for GCP-E: 29.661646127700806 seconds
+Detached count for GCP-E: 0 gates
+
+qpu_size=10, num_qubits=40, num_partitions=4
+Number of qubits in circuit 40
+Min e-bit count: 100
+Time taken for GCP-E: 36.128711223602295 seconds
+Detached count for GCP-E: 0 gates
+
+qpu_size=12, num_qubits=48, num_partitions=4
+Number of qubits in circuit 48
+Min e-bit count: 117
+Time taken for GCP-E: 41.73045372962952 seconds
 Detached count for GCP-E: 0 gates
 
 

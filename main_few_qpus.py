@@ -245,8 +245,7 @@ def main():
 
             output_string = ""
 
-            # for num_qubits in range(16, 96+1, 16):
-            for num_qubits in range(16, 16+1, 16):
+            for num_qubits in range(16, 48+1, 8):
 
                 print(f"Testing {num_qubits=}")
 

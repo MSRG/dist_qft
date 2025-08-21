@@ -4,4 +4,28 @@ Min e-bit count: 24
 Time taken for ZV_THY: 0 seconds
 Detached count for ZV_THY: 0 gates
 
+qpu_size=6, num_qubits=24, num_partitions=4
+Number of qubits in circuit 24
+Min e-bit count: 36
+Time taken for ZV_THY: 0 seconds
+Detached count for ZV_THY: 0 gates
+
+qpu_size=8, num_qubits=32, num_partitions=4
+Number of qubits in circuit 32
+Min e-bit count: 48
+Time taken for ZV_THY: 0 seconds
+Detached count for ZV_THY: 0 gates
+
+qpu_size=10, num_qubits=40, num_partitions=4
+Number of qubits in circuit 40
+Min e-bit count: 60
+Time taken for ZV_THY: 0 seconds
+Detached count for ZV_THY: 0 gates
+
+qpu_size=12, num_qubits=48, num_partitions=4
+Number of qubits in circuit 48
+Min e-bit count: 72
+Time taken for ZV_THY: 0 seconds
+Detached count for ZV_THY: 0 gates
+
 
