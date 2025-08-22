@@ -10,21 +10,21 @@ def plot_results():
         "results-data-gcp-s.txt",
         "results-data-gcp-e.txt",
         "results-data-fgp-roee.txt",
+        "results-data-pytket-aesd.txt",
+        "results-data-pytket-pe.txt",
+        "results-data-pytket-phe.txt",
         "results-data-mlfm-r.txt", 
         "results-data-zv-thy.txt",
-        "results-data-pytket-pe.txt",
-        "results-data-pytket-aesd.txt",
-        "results-data-pytket-phe.txt",
     ]
     method_names = [
         "GCP-S",
         "GCP-E",
         "FGP-rOEE",
+        "Pytket-AESD",
+        "Pytket-PE",
+        "Pytket-PHE",
         "MLFM-R",
         "Detached Gates (Ours)",
-        "Pytket-PE",
-        "Pytket-AESD",
-        "Pytket-PHE",
     ]
 
     for num_partitions in [2, 4]:
