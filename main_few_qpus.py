@@ -4,17 +4,6 @@ import time
 from pathlib import Path
 
 import numpy as np
-from pytket.extensions.qiskit import qiskit_to_tk
-from pytket_dqc.allocators import Annealing, HypergraphPartitioning
-from pytket_dqc.distributors import Distributor, PartitioningHeterogeneousEmbedding
-from pytket_dqc.networks import NISQNetwork
-from pytket_dqc.refiners import (DetachedGates, EagerHTypeMerge,
-                                 IntertwinedDTypeMerge, NeighbouringDTypeMerge,
-                                 RepeatRefiner, SequenceRefiner, VertexCover)
-from pytket_dqc.utils import DQCPass, ebit_cost
-from qiskit import transpile
-from qiskit.circuit.library import QFT
-
 from disqco.graphs.GCP_hypergraph import QuantumCircuitHyperGraph
 from disqco.graphs.quantum_network import QuantumNetwork
 from disqco.parti.fgp.fgp_roee import main_algorithm as fgp_algorithm
@@ -23,6 +12,36 @@ from disqco.parti.FM.FM_methods import set_initial_partitions
 from disqco.parti.FM.multilevel_FM import MLFM_recursive
 from disqco.parti.genetic.genetic_algorithm_original import \
     Genetic_Partitioning
+from pytket.circuit import Circuit as PytketCircuit
+from pytket.extensions.qiskit import qiskit_to_tk
+from pytket_dqc.allocators import Annealing, HypergraphPartitioning
+from pytket_dqc.distributors import (Distributor,
+                                     PartitioningHeterogeneousEmbedding)
+from pytket_dqc.networks import NISQNetwork
+from pytket_dqc.refiners import (DetachedGates, EagerHTypeMerge,
+                                 IntertwinedDTypeMerge, NeighbouringDTypeMerge,
+                                 RepeatRefiner, SequenceRefiner, VertexCover)
+from pytket_dqc.utils import DQCPass, ebit_cost
+from qiskit import QuantumCircuit as QiskitCircuit
+from qiskit import transpile
+from qiskit.circuit.library import QFT
+
+
+def get_QFT_circuit_qiskit(num_qubits):
+    circ = QiskitCircuit(num_qubits, name="$$QFT$$")
+    for i in range(num_qubits):
+        circ.h(num_qubits-1-i)
+        for j in range(i + 1, num_qubits):
+            circ.cp(np.pi / 2 ** (j - i), num_qubits-1-i, num_qubits-1-j)
+    return circ
+
+def get_QFT_circuit_pytket(num_qubits):
+    circ = PytketCircuit(num_qubits, name="$$QFT$$")
+    for i in range(num_qubits):
+        circ.H(num_qubits-1-i)
+        for j in range(i + 1, num_qubits):
+            circ.CU1(1 / 2 ** (j - i), num_qubits-1-i, num_qubits-1-j)
+    return circ
 
 
 def _test_GCP(circuit, qpu_sizes, num_partitions, gate_packing):
@@ -98,9 +117,6 @@ def test_PYTKET_PE(circuit, qpu_sizes, num_partitions):
         server_qubits={qpu_idx:list(qubits_range) for qpu_idx,qubits_range in enumerate(qpu_qubits_ranges)}
     )
 
-    tk_circuit = qiskit_to_tk(circuit)
-    DQCPass().apply(tk_circuit) # transpile into CP, H, and Rz
-
     start = time.time()
     """Equivalent to the workflow PartitionEmbed 
     cited in [Andres-Matrinez et al. 2024] and [Burt et al. 2025]
@@ -110,7 +126,7 @@ def test_PYTKET_PE(circuit, qpu_sizes, num_partitions):
     - PartitioningHeterogeneousEmbedding, that includes embedding
     but removing the boundary reallocation of the latter (i.e. removing the 'Heterogeneous' part).
     """
-    distribution = HypergraphPartitioning().allocate(tk_circuit, network) #seed goes as kwarg
+    distribution = HypergraphPartitioning().allocate(circuit, network) #seed goes as kwarg
     refiner = RepeatRefiner(EagerHTypeMerge())
     refiner.refine(distribution)
     
@@ -140,15 +156,12 @@ def test_PYTKET_PHE(circuit, qpu_sizes, num_partitions):
         server_qubits={qpu_idx:list(qubits_range) for qpu_idx,qubits_range in enumerate(qpu_qubits_ranges)}
     )
 
-    tk_circuit = qiskit_to_tk(circuit)
-    DQCPass().apply(tk_circuit) # transpile into CP, H, and Rz
-
     start = time.time()
     """Equivalent to the workflow PartitionHeterogeneousEmbed 
     cited in [Andres-Matrinez et al. 2024] and recommended by Burt
     """
 
-    distribution = PartitioningHeterogeneousEmbedding().distribute(tk_circuit, network)
+    distribution = PartitioningHeterogeneousEmbedding().distribute(circuit, network)
 
     stop = time.time()
     duration = stop - start
@@ -168,9 +181,6 @@ def test_PYTKET_AESD(circuit, qpu_sizes, num_partitions):
         server_qubits={qpu_idx:list(qubits_range) for qpu_idx,qubits_range in enumerate(qpu_qubits_ranges)}
     )
 
-    tk_circuit = qiskit_to_tk(circuit)
-    DQCPass().apply(tk_circuit) # transpile into CP, H, and Rz
-
     start = time.time()
     """Equivalent to the workflow EmbedSteinerDetach 
     cited in [Andres-Matrinez et al. 2024] 
@@ -183,7 +193,7 @@ def test_PYTKET_AESD(circuit, qpu_sizes, num_partitions):
     - CoverEmbeddingSteinerDetached, which includes the reallocation using detached gates
     """
     # PartitioningAnnealing
-    distribution = Annealing().allocate(tk_circuit, network)  #seed goes as kwarg
+    distribution = Annealing().allocate(circuit, network)  #seed goes as kwarg
     # CoverEmbedding
     VertexCover().refine(distribution)
     # Steiner
@@ -236,8 +246,18 @@ def main():
         test_PYTKET_AESD,
         test_PYTKET_PHE, 
     ]
+    qft_methods = [
+        get_QFT_circuit_qiskit, 
+        get_QFT_circuit_qiskit, 
+        get_QFT_circuit_qiskit, 
+        get_QFT_circuit_qiskit, 
+        lambda n: None, 
+        get_QFT_circuit_pytket, 
+        get_QFT_circuit_pytket,
+        get_QFT_circuit_pytket, 
+    ]
 
-    for test_method, method_name, result_filename in zip(test_methods, method_names, result_filenames):
+    for get_QFT_circuit, test_method, method_name, result_filename in zip(qft_methods, test_methods, method_names, result_filenames):
         print(f"Testing {method_name}")
 
         for num_partitions in [2,4]:
@@ -249,19 +269,14 @@ def main():
 
                 print(f"Testing {num_qubits=}")
 
-                circuit = QFT(num_qubits, do_swaps=False)
+                circuit = get_QFT_circuit(num_qubits)
 
                 qpu_size = num_qubits // num_partitions
                 qpu_sizes = [qpu_size] * num_partitions # Equal sized QPUs
-                depth = circuit.depth()
 
                 output_string += f"{qpu_size=}, {num_qubits=}, {num_partitions=}\n"
 
-                # Transpile the circuit to the basis gates
-                basis_gates = ['u', 'cp']
-                circuit = transpile(circuit, basis_gates=basis_gates) # TODO refactor
-
-                output_string += f'Number of qubits in circuit {circuit.num_qubits}\n'
+                output_string += f'Number of qubits in circuit {num_qubits}\n'
                 best_score, time, detached_count = test_method(circuit, qpu_sizes, num_partitions)
                 output_string += f"Min e-bit count: {best_score}\n"
                 output_string += f"Time taken for {method_name}: {time} seconds\n"

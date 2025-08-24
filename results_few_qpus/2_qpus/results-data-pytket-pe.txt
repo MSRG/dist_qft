@@ -1,31 +1,31 @@
 qpu_size=8, num_qubits=16, num_partitions=2
 Number of qubits in circuit 16
 Min e-bit count: 8
-Time taken for PYTKET_PE: 0.06036686897277832 seconds
+Time taken for PYTKET_PE: 0.09491443634033203 seconds
 Detached count for PYTKET_PE: 1 gates
 
 qpu_size=12, num_qubits=24, num_partitions=2
 Number of qubits in circuit 24
 Min e-bit count: 12
-Time taken for PYTKET_PE: 0.14174771308898926 seconds
+Time taken for PYTKET_PE: 0.15004873275756836 seconds
 Detached count for PYTKET_PE: 1 gates
 
 qpu_size=16, num_qubits=32, num_partitions=2
 Number of qubits in circuit 32
 Min e-bit count: 20
-Time taken for PYTKET_PE: 0.5085504055023193 seconds
+Time taken for PYTKET_PE: 0.6342484951019287 seconds
 Detached count for PYTKET_PE: 53 gates
 
 qpu_size=20, num_qubits=40, num_partitions=2
 Number of qubits in circuit 40
-Min e-bit count: 23
-Time taken for PYTKET_PE: 1.094407558441162 seconds
-Detached count for PYTKET_PE: 0 gates
+Min e-bit count: 27
+Time taken for PYTKET_PE: 1.294119119644165 seconds
+Detached count for PYTKET_PE: 46 gates
 
 qpu_size=24, num_qubits=48, num_partitions=2
 Number of qubits in circuit 48
-Min e-bit count: 31
-Time taken for PYTKET_PE: 1.6955223083496094 seconds
-Detached count for PYTKET_PE: 17 gates
+Min e-bit count: 27
+Time taken for PYTKET_PE: 2.2089545726776123 seconds
+Detached count for PYTKET_PE: 22 gates
 
 

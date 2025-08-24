@@ -1,31 +1,31 @@
 qpu_size=4, num_qubits=16, num_partitions=4
 Number of qubits in circuit 16
 Min e-bit count: 24
-Time taken for MLFM_R: 1.0360472202301025 seconds
+Time taken for MLFM_R: 0.7651674747467041 seconds
 Detached count for MLFM_R: 0 gates
 
 qpu_size=6, num_qubits=24, num_partitions=4
 Number of qubits in circuit 24
 Min e-bit count: 36
-Time taken for MLFM_R: 2.1905012130737305 seconds
+Time taken for MLFM_R: 2.8251960277557373 seconds
 Detached count for MLFM_R: 0 gates
 
 qpu_size=8, num_qubits=32, num_partitions=4
 Number of qubits in circuit 32
 Min e-bit count: 48
-Time taken for MLFM_R: 5.169553756713867 seconds
+Time taken for MLFM_R: 6.274885177612305 seconds
 Detached count for MLFM_R: 0 gates
 
 qpu_size=10, num_qubits=40, num_partitions=4
 Number of qubits in circuit 40
 Min e-bit count: 60
-Time taken for MLFM_R: 11.066370248794556 seconds
+Time taken for MLFM_R: 12.609003782272339 seconds
 Detached count for MLFM_R: 0 gates
 
 qpu_size=12, num_qubits=48, num_partitions=4
 Number of qubits in circuit 48
 Min e-bit count: 72
-Time taken for MLFM_R: 23.61160182952881 seconds
+Time taken for MLFM_R: 27.659319400787354 seconds
 Detached count for MLFM_R: 0 gates
 
 
