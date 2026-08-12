@@ -24,7 +24,7 @@ def plot_results():
         "Pytket-PE",
         "Pytket-PHE",
         "MLFM-R",
-        "Detached Gates (Ours)",
+        "Packed Gates (Ours)",
     ]
 
     for num_partitions in [2, 4]:
