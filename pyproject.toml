@@ -23,4 +23,9 @@ dependencies = [
 
 [tool.uv.sources]
 pytket-dqc = { git = "https://github.com/CQCL/pytket-dqc.git" }
-disqco = { git = "https://github.com/ZacharyVernec/DISQCO.git", rev = "1e47daf762724650e973fbcb23a3fde4fa6b4da7" }
+disqco = { git = "https://github.com/ZacharyVernec/DISQCO.git", rev = "b47f3bea8550a4c39c7ce0572594d72add5db579" }
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.30.1",
+]
