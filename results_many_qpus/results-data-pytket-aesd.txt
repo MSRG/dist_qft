@@ -1,31 +1,7 @@
-qpu_size=8, num_qubits=16, num_partitions=2
-Number of qubits in circuit 16
-Min e-bit count: 9
-Time taken for PYTKET_AESD: 2.0347633361816406 seconds
-Detached count for PYTKET_AESD: 1 gates
-
-qpu_size=8, num_qubits=24, num_partitions=3
-Number of qubits in circuit 24
-Min e-bit count: 30
-Time taken for PYTKET_AESD: 5.163315773010254 seconds
-Detached count for PYTKET_AESD: 63 gates
-
-qpu_size=8, num_qubits=32, num_partitions=4
-Number of qubits in circuit 32
-Min e-bit count: 67
-Time taken for PYTKET_AESD: 13.610863447189331 seconds
-Detached count for PYTKET_AESD: 135 gates
-
-qpu_size=8, num_qubits=40, num_partitions=5
-Number of qubits in circuit 40
-Min e-bit count: 92
-Time taken for PYTKET_AESD: 40.58488607406616 seconds
-Detached count for PYTKET_AESD: 264 gates
-
-qpu_size=8, num_qubits=48, num_partitions=6
-Number of qubits in circuit 48
-Min e-bit count: 149
-Time taken for PYTKET_AESD: 77.0791563987732 seconds
-Detached count for PYTKET_AESD: 399 gates
+qpu_size=3, num_qubits=9, num_partitions=3
+Number of qubits in circuit 9
+Min e-bit count: 8
+Time taken for PYTKET_AESD: 1.9797625541687012 seconds
+Detached count for PYTKET_AESD: 4 gates
 
 

@@ -55,9 +55,12 @@ cd python
 make
 cp kahypar*.so <path-to-site-packages>
 ```
+
 Make sure to use the correct cmake parameters as written above.
 Make sure to replace `<path-to-site-packages>` with the correct path for the python site packages used for this repo (`dist_qft`). For the `.venv` created by uv, this would be `dist_qft/.venv/lib/python3.11/site-packages`.
 
 # Data and plots
 
 Run `main_*_qpus.py` to generate data and `plot_*_qpus.py` to generate graphs from the data.
+
+For reproducibility, run with PYTHONHASHSEED as environment variable. With uv, this can be done with `uv run --env-file .env main_few_qpus.py` to use the same PYTHONHASHSEED as in the paper. 

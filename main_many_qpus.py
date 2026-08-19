@@ -1,5 +1,6 @@
 import itertools
 import logging
+import random
 import time
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from disqco.parti.genetic.genetic_algorithm_original import \
 from pytket.circuit import Circuit as PytketCircuit
 from pytket.extensions.qiskit import qiskit_to_tk
 from pytket_dqc.allocators import Annealing, HypergraphPartitioning
+from pytket_dqc.allocators import Random as RandomAllocator
 from pytket_dqc.distributors import (Distributor,
                                      PartitioningHeterogeneousEmbedding)
 from pytket_dqc.networks import NISQNetwork
@@ -25,6 +27,8 @@ from pytket_dqc.utils import DQCPass, ebit_cost
 from qiskit import QuantumCircuit as QiskitCircuit
 from qiskit import transpile
 from qiskit.circuit.library import QFT
+
+SEED = 56426435
 
 
 def get_QFT_circuit_qiskit(num_qubits):
@@ -50,7 +54,7 @@ def _test_GCP(circuit, qpu_sizes, num_partitions, gate_packing):
         pop_size=100,
         num_generations=100,
         mutation_rate=0.9, 
-        multi_process=True, 
+        multi_process=False, 
         search_method=True, 
         search_number=100, 
         log=False
@@ -125,7 +129,7 @@ def test_PYTKET_PE(circuit, qpu_sizes, num_partitions):
     - PartitioningHeterogeneousEmbedding, that includes embedding
     but removing the boundary reallocation of the latter (i.e. removing the 'Heterogeneous' part).
     """
-    distribution = HypergraphPartitioning().allocate(circuit, network) #seed goes as kwarg
+    distribution = HypergraphPartitioning().allocate(circuit, network, seed=SEED)
     refiner = RepeatRefiner(EagerHTypeMerge())
     refiner.refine(distribution)
     
@@ -160,7 +164,7 @@ def test_PYTKET_PHE(circuit, qpu_sizes, num_partitions):
     cited in [Andres-Matrinez et al. 2024] and recommended by Burt
     """
 
-    distribution = PartitioningHeterogeneousEmbedding().distribute(circuit, network)
+    distribution = PartitioningHeterogeneousEmbedding().distribute(circuit, network, seed=SEED)
 
     stop = time.time()
     duration = stop - start
@@ -192,7 +196,13 @@ def test_PYTKET_AESD(circuit, qpu_sizes, num_partitions):
     - CoverEmbeddingSteinerDetached, which includes the reallocation using detached gates
     """
     # PartitioningAnnealing
-    distribution = Annealing().allocate(circuit, network)  #seed goes as kwarg
+    # Redefine random allocator to have allocate be called with a seed, since Annealing().allocate calls its initial_place_method without passing its seed
+    class SeededRandomAllocator(RandomAllocator):
+        def __init__(self):
+            self.random_allocator = RandomAllocator()
+        def allocate(self, circ, network, **kwargs):
+            return self.random_allocator.allocate(circ, network, seed=SEED, **kwargs)
+    distribution = Annealing().allocate(circuit, network, seed=SEED, initial_place_method=SeededRandomAllocator())
     # CoverEmbedding
     VertexCover().refine(distribution)
     # Steiner
@@ -203,7 +213,7 @@ def test_PYTKET_AESD(circuit, qpu_sizes, num_partitions):
     refiner = RepeatRefiner(SequenceRefiner(refiner_list))
     refiner.refine(distribution)
     # Detached
-    DetachedGates().refine(distribution)
+    DetachedGates().refine(distribution, seed=SEED)
 
     stop = time.time()
     duration = stop - start
@@ -215,6 +225,9 @@ def test_PYTKET_AESD(circuit, qpu_sizes, num_partitions):
 
 
 def main():
+    np.random.seed(SEED)
+    random.seed(SEED)
+
     result_filenames = [
         "results-data-gcp-s.txt",
         "results-data-gcp-e.txt",
@@ -259,11 +272,11 @@ def main():
     for get_QFT_circuit, test_method, method_name, result_filename in zip(qft_methods, test_methods, method_names, result_filenames):
         print(f"Testing {method_name}")
 
-        qpu_size = 8
+        qpu_size = 3
 
         output_string = ""
 
-        for num_partitions in range(2, 6+1):
+        for num_partitions in range(3, 3+1):
             num_qubits = num_partitions * qpu_size
 
             print(f"Testing {num_partitions=}")
