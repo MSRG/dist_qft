@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dqft"
+version = "0.1.0"
+description = "Distributed Quantum Fourier Transform circuits and IBM Quantum hardware benchmarking"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "qiskit>=1.0",
+    "qiskit-aer",
+    "qiskit-ibm-runtime",
+    "pylatexenc",
+    "networkx",
+    "matplotlib",
+    "numpy",
+    "pydot",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

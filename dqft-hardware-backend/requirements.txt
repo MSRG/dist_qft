@@ -1,0 +1,17 @@
+# Core quantum computing stack
+qiskit>=1.0
+qiskit-aer
+qiskit-ibm-runtime
+pylatexenc          # required for QuantumCircuit.draw('mpl')
+
+# Circuit / coupling-map analysis
+networkx
+
+# Plotting
+matplotlib
+numpy
+
+# Required by qiskit's CouplingMap.draw() to render graphs -- this is a
+# Python binding around the system Graphviz binary. You must ALSO install
+# Graphviz itself at the OS level; pip alone is not enough. See README.md.
+pydot
